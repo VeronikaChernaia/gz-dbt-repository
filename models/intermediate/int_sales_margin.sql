@@ -1,6 +1,6 @@
 SELECT 
-sales.date_date,
-sales.orders_id, 
+sales.date_date AS date_date,
+sales.orders_id AS orders_id, 
 --sales.products_id,
 ROUND(SUM(CAST(sales.revenue AS FLOAT64)),2) AS revenue,
 SUM(CAST(sales.quantity AS INT64)) AS quantity,
