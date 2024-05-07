@@ -1,0 +1,17 @@
+version: 2
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: dataset of raw data for exo2
+    tables:
+      - name: product
+        identifier: quantum-lambda-420409.gz_raw_data.raw_gz_product
+        description: product information for greenweez
+
+      - name: sales
+        identifier: quantum-lambda-420409.gz_raw_data.raw_gz_sales
+        description: information about date_date, orders_id, pdt_id,revenue and quantity
+
+      - name: ship
+        identifier: quantum-lambda-420409.gz_raw_data.raw_gz_ship
+        description: orders_id, shipping_fee, shipping_fee_1, logCost, ship_cost
