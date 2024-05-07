@@ -12,6 +12,7 @@ renamed as (
         date_date,
         orders_id,
         pdt_id as products_id,
+        CONCAT(orders_id,"-", pdt_id) as sales_pk,
         revenue,
         quantity
 

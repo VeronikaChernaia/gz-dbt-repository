@@ -7,11 +7,53 @@ sources:
       - name: product
         identifier: raw_gz_product
         description: product information for greenweez
+        columns:
+          - name: products_id
+            description: pk of the table
+            tests : 
+                - unique
+                - not_null
+          - name : purchase_price
+            description : coup d'acquisition du produit
+
 
       - name: sales
+        freshness: 
+          warn_after: {count: 90, period: day}
+        loaded_at_field: "CAST(date_date as TIMESTAMP)"
         identifier: raw_gz_sales
-        description: information about date_date, orders_id, pdt_id,revenue and quantity
+        description: One row for each product id found in every order id date_date, orders_id, pdt_id,revenue and quantity 
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name : orders_id
+            description: idenfier of every order
+          - name : products_id 
+            description: unique id of product
+          - name : CONCAT(orders_id,"-", pdt_id)
+            description : pk for the table sales
+            tests : 
+              - unique 
+              - not_null
+                  
+          - name : revenue
+            description: la tune qu'on a gangné pour la vente de la quantité du produit
+          - name : quantity
+            description: quantité d'articles vendu
 
       - name: ship
         identifier: raw_gz_ship
-        description: orders_id, shipping_fee, shipping_fee_1, logCost, ship_cost
+        description: infos sur la livraison de chaque commande orders_id, shipping_fee, logCost, ship_cost 
+        columns:
+          - name: orders_id
+            tests : 
+                - unique
+                - not_null
+            description: unique id
+          - name : shipping_fee
+            description: ce qu'on a payé pour la livraison
+          - name : logCost
+            description: cout logistique
+          - name : ship_cost 
+            description: cout acheminement
+                    
