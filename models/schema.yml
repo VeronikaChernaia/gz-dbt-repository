@@ -62,3 +62,36 @@ models:
   - name : stg_raw__sales 
   - name : stg_raw__product
   - name : stg_raw__ship
+  - name : int_sales_margin
+    tests:
+      - unique:
+          column_name: "(orders_id || '-' || products_id)"
+      - not_null:
+          column_name:
+            - orders_id
+            - products_id
+            - margin
+            - Purchase_cost
+            - date_date
+            - revenue
+            - quantity
+  - name : int_orders_operational
+    tests:
+      - unique:
+          column_name: "(orders_id || '-' || products_id)"
+      - not_null:
+          column_name:
+            - orders_id
+            - column
+            - orders_id 
+            - operational_margin
+            - quantity
+            - revenue
+            - purchase_cost
+            - margin
+            - shipping_fee
+            - logcost 
+            - ship_cost
+ 
+
+      
