@@ -1,4 +1,5 @@
 version: 2
+
 sources:
   - name: raw
     schema: gz_raw_data
@@ -57,3 +58,7 @@ sources:
           - name : ship_cost 
             description: cout acheminement
                     
+models:
+  - name : stg_raw__sales 
+  - name : stg_raw__product
+  - name : stg_raw__ship
