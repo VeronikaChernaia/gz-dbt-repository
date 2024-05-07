@@ -63,9 +63,23 @@ models:
   - name : stg_raw__product
   - name : stg_raw__ship
   - name : int_sales_margin
+    description: margin calcultation per order 
+    columns:
+      - name: order_id
+        description: primary key
+      - name: margin
+        description: Margin = Revenue - Purchase_cost
+      - name: Purchase_cost
+        description: Purchase_cost = Quantity * Purchase_price 
+      - name: date_date
+        description: date of the order
+      - name: revenue
+        description: sum of revenue per order 
+      - name: quantity
+        description: sum of quantity per order
     tests:
       - unique:
-          column_name: "(orders_id || '-' || products_id)"
+          column_name: orders_id
       - not_null:
           column_name:
             - orders_id
@@ -76,13 +90,33 @@ models:
             - revenue
             - quantity
   - name : int_orders_operational
+    description: operational margin calculation per order
+    columns:
+      - name: orders_id
+        description: pk of the table
+      - name: date_date
+        description: date of the order
+      - name : operational_margin
+        description: margin + shipping fee - log_cost - ship_cost
+      - name : quantity 
+        description: nb of products per order
+      - name : revenue
+        description: sum od revenue per order
+      - name : purchase_cost
+        description: Quantity * Purchase_price
+      - name : margin 
+        description: Revenue - Purchase_cost
+      - name : shipping_fee
+        description: frais de livraison
+      - name : logcost
+        description: frais logistiques
+      - name : ship_cost
+        description: cout de livraison
     tests:
       - unique:
-          column_name: "(orders_id || '-' || products_id)"
+          column_name: orders_id
       - not_null:
           column_name:
-            - orders_id
-            - column
             - orders_id 
             - operational_margin
             - quantity
