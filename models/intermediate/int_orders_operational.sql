@@ -10,7 +10,7 @@ SELECT
   ,s.logcost
   ,s.ship_cost
   
-FROM `quantum-lambda-420409`.`dbt_vchernaia`.`int_sales_margin` AS o
-JOIN `quantum-lambda-420409`.`dbt_vchernaia`.`stg_raw__ship` AS s 
+FROM {{ref("int_sales_margin")}} o
+LEFT JOIN {{ref("stg_raw__ship")}} s 
 USING(orders_id) 
 ORDER BY o.orders_id desc
