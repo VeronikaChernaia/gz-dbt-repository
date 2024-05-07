@@ -12,5 +12,5 @@ SELECT
   
 FROM `quantum-lambda-420409`.`dbt_vchernaia`.`int_sales_margin` AS o
 JOIN `quantum-lambda-420409`.`dbt_vchernaia`.`stg_raw__ship` AS s 
-USING(orders_id)
+USING(orders_id) 
 ORDER BY o.orders_id desc
