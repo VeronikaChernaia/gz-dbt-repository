@@ -1,0 +1,131 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: gz_raw_data
+    description: dataset of raw data for exo2
+    tables:
+      - name: product
+        identifier: raw_gz_product
+        description: product information for greenweez
+        columns:
+          - name: products_id
+            description: pk of the table
+            tests : 
+                - unique
+                - not_null
+          - name : purchase_price
+            description : coup d'acquisition du produit
+
+
+      - name: sales
+        freshness: 
+          warn_after: {count: 90, period: day}
+        loaded_at_field: "CAST(date_date as TIMESTAMP)"
+        identifier: raw_gz_sales
+        description: One row for each product id found in every order id date_date, orders_id, pdt_id,revenue and quantity 
+        columns:
+          - name: date_date
+            description: date of purchase
+          - name : orders_id
+            description: idenfier of every order
+          - name : products_id 
+            description: unique id of product
+          - name : CONCAT(orders_id,"-", pdt_id)
+            description : pk for the table sales
+            tests : 
+              - unique 
+              - not_null
+                  
+          - name : revenue
+            description: la tune qu'on a gangné pour la vente de la quantité du produit
+          - name : quantity
+            description: quantité d'articles vendu
+
+      - name: ship
+        identifier: raw_gz_ship
+        description: infos sur la livraison de chaque commande orders_id, shipping_fee, logCost, ship_cost 
+        columns:
+          - name: orders_id
+            tests : 
+                - unique
+                - not_null
+            description: unique id
+          - name : shipping_fee
+            description: ce qu'on a payé pour la livraison
+          - name : logCost
+            description: cout logistique
+          - name : ship_cost 
+            description: cout acheminement
+                    
+models:
+  - name : stg_raw__sales 
+  - name : stg_raw__product
+  - name : stg_raw__ship
+  - name : int_sales_margin
+    description: margin calcultation per order 
+    columns:
+      - name: order_id
+        description: primary key
+      - name: margin
+        description: Margin = Revenue - Purchase_cost
+      - name: Purchase_cost
+        description: Purchase_cost = Quantity * Purchase_price 
+      - name: date_date
+        description: date of the order
+      - name: revenue
+        description: sum of revenue per order 
+      - name: quantity
+        description: sum of quantity per order
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name:
+            - orders_id
+            - products_id
+            - margin
+            - Purchase_cost
+            - date_date
+            - revenue
+            - quantity
+  - name : int_orders_operational
+    description: operational margin calculation per order
+    columns:
+      - name: orders_id
+        description: pk of the table
+      - name: date_date
+        description: date of the order
+      - name : operational_margin
+        description: margin + shipping fee - log_cost - ship_cost
+      - name : quantity 
+        description: nb of products per order
+      - name : revenue
+        description: sum od revenue per order
+      - name : purchase_cost
+        description: Quantity * Purchase_price
+      - name : margin 
+        description: Revenue - Purchase_cost
+      - name : shipping_fee
+        description: frais de livraison
+      - name : logcost
+        description: frais logistiques
+      - name : ship_cost
+        description: cout de livraison
+    tests:
+      - unique:
+          column_name: orders_id
+      - not_null:
+          column_name:
+            - orders_id 
+            - operational_margin
+            - quantity
+            - revenue
+            - purchase_cost
+            - margin
+            - shipping_fee
+            - logcost 
+            - ship_cost
+ 
+
+      
