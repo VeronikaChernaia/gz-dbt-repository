@@ -59,18 +59,70 @@ sources:
             description: cout acheminement
       - name : adwords
         identifier: raw_gz_adwords
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name : campaign_key
+            description: pk of this table
+          - name : ads_cost
+          - name : impression
+          - name : click
       - name : bing
         identifier: raw_gz_bing
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name : campaign_key
+            description: pk of this table              
+          - name : ads_cost
+          - name : impression
+          - name : click
       - name : criteo
         identifier: raw_gz_criteo
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name : campaign_key
+            description: pk of this table             
+          - name : ads_cost
+          - name : impression
+          - name : click
       - name : facebook
         identifier: raw_gz_facebook
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name : campaign_key
+            description: pk of this table           
+          - name : ads_cost
+          - name : impression
+          - name : click
       
                     
 models:
   - name : stg_raw__sales 
   - name : stg_raw__product
   - name : stg_raw__ship
+  - name : stg_raw__adwords
+  - name : stg_raw__bing
+  - name : stg_raw__criteo
+  - name : stg_raw__facebook
+  - name : int_campaign
+
+    columns:
+          - name : CONCAT(campaign_key,'-',date_date)
+            tests:
+              - unique
+              - not_null
+              
+          - name: date_date
+          - name: paid_source
+          - name : campaign_key
+          - name : ads_cost
+          - name : impression
+          - name : click
+    
+
   - name : int_sales_margin
     description: margin calcultation per order 
     columns:
